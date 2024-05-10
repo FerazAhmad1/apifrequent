@@ -1,30 +1,40 @@
 const mongoose = require("mongoose");
 
-// Define the User schema
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
+    validate: {
+      validator: function (v) {
+        return /^[A-Za-z]+$/.test(v); // Test if string contains only alphabetic characters
+      },
+      message: (props) => `${props.value} is not a valid first name!`,
+    },
   },
   lastName: {
     type: String,
     required: true,
+    validate: {
+      validator: function (v) {
+        return /^[A-Za-z]+$/.test(v); // Test if string contains only alphabetic characters
+      },
+      message: (props) => `${props.value} is not a valid first name!`,
+    },
   },
   gender: {
     type: String,
-    enum: ["male", "female", "other"],
+    enum: ["Male", "Female", "Other"],
     required: true,
   },
-  dateOfBirth: {
+  dob: {
     type: Date,
     required: true,
     validate: {
       validator: function (value) {
-        // Calculate age based on date of birth
         const age = Math.floor(
           (new Date() - new Date(value)) / (365.25 * 24 * 60 * 60 * 1000)
         );
-        // Validate age falls within range (14 to 99 years)
+
         return age >= 14 && age <= 99;
       },
       message: "Age must be between 14 and 99 years",
@@ -45,20 +55,20 @@ const userSchema = new mongoose.Schema({
       message: (props) => `${props.value} is not a valid email address!`,
     },
   },
-  // Reference to Country
+
   country: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Country", // Reference to the Country model
+    type: String,
+    required: true,
   },
-  // Reference to City
+
   city: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "City", // Reference to the City model
+    type: String,
+    required: true,
   },
-  // Reference to State
+
   state: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "State", // Reference to the State model
+    type: String,
+    required: true,
   },
 });
 

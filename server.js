@@ -13,9 +13,7 @@ const DB = process.env.DATABASE.replace(
 console.log("password", process.env.DATABASE_PASSWORD, DB);
 mongoose
   .connect(DB)
-  .then((connection) => {
-    console.log(connection);
-  })
+  .then((connection) => {})
 
   .catch((error) => console.log(error));
 app.listen(PORT, () => {
